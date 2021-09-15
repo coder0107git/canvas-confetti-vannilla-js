@@ -16,12 +16,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Confetti from './Confetti'
+import assetFactory from './assetFactory'
 
-export {Confetti}
-
-export default function renderConfettiApp(env, elt) {
-  ReactDOM.render(<Confetti />, elt)
+export default function generateConfettiObject(key) {
+  return {
+    key,
+    type: 'svg',
+    src: assetFactory(key),
+    weight: 0.05,
+    size: 40
+  }
 }
