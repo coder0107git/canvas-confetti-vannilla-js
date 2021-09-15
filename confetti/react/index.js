@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
+/* old code
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Confetti from './Confetti'
@@ -24,4 +24,15 @@ export {Confetti}
 
 export default function renderConfettiApp(env, elt) {
   ReactDOM.render(<Confetti />, elt)
+}
+New Code*/ 
+import * as Confetti from '/Confetti.js';
+
+export {Confetti};
+
+export default function renderConfettiApp(env, elt) {
+  var confettiElement = document.getElementByClassName(elt);
+  var confettiSettings = { target: confettiElement };
+  var confetti = new ConfettiGenerator(confettiSettings);
+  confetti.render();
 }
