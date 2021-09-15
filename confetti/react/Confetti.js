@@ -88,5 +88,6 @@ import ConfettiGenerator from "/confetti-js.js";
 import getRandomConfettiFlavor from "/confettiFlavor.js";
 
 export default function Confetti() {
-  const [window.visible, window.setVisible] = true;
+  let [this.visible] = true;
+  let [this.setVisible] = undefined;
 }
