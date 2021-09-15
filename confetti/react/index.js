@@ -31,8 +31,17 @@ import * as Confetti from '/Confetti.js';
 export {Confetti};
 
 export default function renderConfettiApp(env, elt) {
-  var confettiElement = document.getElementByClassName(elt);
-  var confettiSettings = { target: confettiElement };
-  var confetti = new ConfettiGenerator(confettiSettings);
-  confetti.render();
+  let env = env;
+  if(env === null || env === undefined) {
+    env = window.document;
+  }
+  if(!elt === null || !elt === undefined) {
+    var confettiParrent = env.getElementByClassName(elt)[0];
+    confettiParrent.appendChild(Confetti);
+  } else {
+    var confettiParrent = env.getElementByClassName(elt)[0];
+    var errorMessage = "Enter a vaild class";
+    window.console.error(errorMessage);
+    confettiParrent.appendChild("<p style='color: red;'>Warning: " + errorMessage + "</p>");
+  }
 }
