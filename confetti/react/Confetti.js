@@ -84,10 +84,58 @@ export default function Confetti() {
   )
 }
 New Code*/
-import ConfettiGenerator from "/confetti-js.js";
-import getRandomConfettiFlavor from "/confettiFlavor.js";
-
 export default function Confetti() {
   let [this.visible] = true;
   let [this.setVisible] = undefined;
+  (function() {
+    if (window.disable_celebrations || !this.visible || this.visible === false) {
+      return;
+    }
+    
+    let forcefulCleanup;
+    let clearConfettiOnSpaceOrEscape;
+    let confetti;
+    
+    const cleanup = () => {
+      confetti.clear()
+      window.document.body.removeEventListener('keydown', clearConfettiOnSpaceOrEscape);
+      if (forcefulCleanup) {
+        forcefulCleanup = clearTimeout(forcefulCleanup);
+      }
+      this.setVisible = false;
+    };
+    
+    confetti = new ConfettiGenerator({
+      target: 'confetti-canvas',
+      max: 160,
+      clock: 50,
+      respawn: false,
+      props: ['square', getRandomConfettiFlavor()].filter(p => p !== null)
+    });
+    
+    clearConfettiOnSpaceOrEscape = event => {
+      if (event.code === "Space" || event.which === 32 || event.keyCode === 32 || event.keyCode === 27) {
+        event.preventDefault();
+        cleanup();
+      }
+    };
+    
+    document.body.addEventListener('keydown', clearConfettiOnSpaceOrEscape);
+    confetti.render();
+    setTimeout(() => {
+      alert('Great work! From the Canvas developers');
+    }, 2500);
+    
+    // Automatically clear animation after 3 seconds, avoiding 5 second window
+    // defined by WCAG Success Criterion 2.2.2: Pause, Stop, Hide.
+    forcefulCleanup = setTimeout(cleanup, 3000)
+    return cleanup
+  })([this.visible]);
+  return window.disable_celebrations || function() {
+    var confettiCanvasElement = document.createElement("canvas");
+    confettiCanvasElement.id = 'confetti-canvas';
+    confettiCanvasElement.dataset.testid = "confetti-canvas";
+    confettiCanvasElement.style = 'position: fixed; top: 0; left: 0;';
+    document.getElementsById("confetti-container").appendChild(confettiCanvasElement);
+  };
 }
